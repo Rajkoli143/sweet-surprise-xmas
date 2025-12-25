@@ -126,9 +126,9 @@ const RomanticLetter = () => {
       {/* "Our memories" text when photos appear */}
       {showPhotos && (
         <div 
-          className="fixed top-24 left-1/2 -translate-x-1/2 z-50 text-center animate-fade-in-up"
+          className="fixed top-24 left-0 right-0 w-full z-50 flex justify-center animate-fade-in-up"
         >
-          <h2 className="font-romantic text-3xl md:text-4xl text-christmas-gold text-shadow-warm">
+          <h2 className="font-romantic text-3xl md:text-4xl text-christmas-gold text-shadow-warm text-center">
             Our Beautiful Memories Together 💕
           </h2>
         </div>
