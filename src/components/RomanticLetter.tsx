@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Heart, Sparkles } from "lucide-react";
+import PhotoGalleryPopup from "./PhotoGalleryPopup";
 
 const letterContent = `Dear Madam Ji,
 
@@ -25,6 +26,7 @@ Merry Christmas, Madam Ji ❤️`;
 const RomanticLetter = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [isComplete, setIsComplete] = useState(false);
+  const [showPhotos, setShowPhotos] = useState(false);
 
   useEffect(() => {
     let index = 0;
@@ -35,8 +37,13 @@ const RomanticLetter = () => {
       } else {
         setIsComplete(true);
         clearInterval(interval);
+        
+        // Show photos after letter completes
+        setTimeout(() => {
+          setShowPhotos(true);
+        }, 1500);
       }
-    }, 40);
+    }, 35);
 
     return () => clearInterval(interval);
   }, []);
@@ -45,6 +52,9 @@ const RomanticLetter = () => {
     <div className="min-h-screen flex items-center justify-center px-4 py-16 relative z-30">
       {/* Background glow */}
       <div className="fixed inset-0 bg-gradient-to-b from-background via-background to-christmas-red/10 pointer-events-none" />
+
+      {/* Photo Gallery Popup */}
+      {showPhotos && <PhotoGalleryPopup />}
 
       {/* Letter container */}
       <div className="relative max-w-2xl w-full">
@@ -59,7 +69,15 @@ const RomanticLetter = () => {
         />
 
         {/* Letter paper */}
-        <div className="bg-gradient-to-br from-christmas-cream/95 to-christmas-cream/90 rounded-lg p-6 md:p-10 shadow-2xl box-glow-gold relative overflow-hidden">
+        <div 
+          className="bg-gradient-to-br from-christmas-cream/95 to-christmas-cream/90 rounded-lg p-6 md:p-10 shadow-2xl relative overflow-hidden transition-all duration-500"
+          style={{
+            boxShadow: showPhotos 
+              ? '0 0 30px hsl(var(--christmas-gold) / 0.4), 0 25px 50px -12px rgba(0,0,0,0.5)'
+              : '0 0 20px hsl(var(--christmas-gold) / 0.3), 0 25px 50px -12px rgba(0,0,0,0.4)',
+            transform: showPhotos ? 'scale(0.85)' : 'scale(1)',
+          }}
+        >
           {/* Paper texture overlay */}
           <div
             className="absolute inset-0 opacity-30 pointer-events-none"
@@ -104,6 +122,17 @@ const RomanticLetter = () => {
           style={{ animationDelay: "0.3s" }}
         />
       </div>
+
+      {/* "Our memories" text when photos appear */}
+      {showPhotos && (
+        <div 
+          className="fixed top-24 left-1/2 -translate-x-1/2 z-50 text-center animate-fade-in-up"
+        >
+          <h2 className="font-romantic text-3xl md:text-4xl text-christmas-gold text-shadow-warm">
+            Our Beautiful Memories Together 💕
+          </h2>
+        </div>
+      )}
     </div>
   );
 };
